@@ -4,11 +4,10 @@ public class Technique {
     private String name;
     private String type;
     private long damage;
-    private String owner;  // Добавлено! Было только в JSON/TXT, но не в классе
+    private String owner;
 
     public Technique() {}
 
-    // Геттеры и сеттеры для ВСЕХ полей
     public String getName() {
         return name;
     }
@@ -33,7 +32,6 @@ public class Technique {
         this.damage = damage;
     }
 
-    // ДОБАВЛЕНО: поле owner
     public String getOwner() {
         return owner;
     }

@@ -23,6 +23,9 @@ public class TXTReader implements Reader {
 
     public Mission extract() throws IOException {
         List<String> lines = Files.readAllLines(Paths.get(file.getPath()));
+        if (lines.isEmpty()) {
+            throw new IOException("Файл пуст");
+        }
 
         Mission mission = new Mission();
         Curse curse = new Curse();
@@ -37,42 +40,33 @@ public class TXTReader implements Reader {
 
             String key = parts[0].trim();
             String value = parts[1].trim();
+            String baseKey = extractBaseKey(key);
 
-            // Простые поля Mission
-            if (key.equals("missionId")) {
-                mission.setMissionId(value);
-            }
-            else if (key.equals("date")) {
-                mission.setDate(value);
-            }
-            else if (key.equals("location")) {
-                mission.setLocation(value);
-            }
-            else if (key.equals("outcome")) {
-                mission.setOutcome(value);
-            }
-            else if (key.equals("damageCost")) {
-                mission.setDamageCost(Long.parseLong(value));
-            }
-
-            // Поля Curse
-            else if (key.equals("curse.name")) {
-                curse.setName(value);
-                mission.setCurse(curse);
-            }
-            else if (key.equals("curse.threatLevel")) {
-                curse.setThreatLevel(value);
-                mission.setCurse(curse);
-            }
-
-            // Поля Sorcerer
-            else if (key.startsWith("sorcerer[")) {
-                processSorcererField(key, value, sorcerers);
-            }
-
-            // Поля Technique
-            else if (key.startsWith("technique[")) {
-                processTechniqueField(key, value, techniques);
+            switch (baseKey) {
+                case "missionId":
+                    mission.setMissionId(value);
+                    break;
+                case "date":
+                    mission.setDate(value);
+                    break;
+                case "location":
+                    mission.setLocation(value);
+                    break;
+                case "outcome":
+                    mission.setOutcome(value);
+                    break;
+                case "damageCost":
+                    mission.setDamageCost(Long.parseLong(value));
+                    break;
+                case "curse":
+                    processCurseField(key, value, curse);
+                    break;
+                case "sorcerer":
+                    processSorcererField(key, value, sorcerers);
+                    break;
+                case "technique":
+                    processTechniqueField(key, value, techniques);
+                    break;
             }
         }
 
@@ -85,11 +79,9 @@ public class TXTReader implements Reader {
     private void processSorcererField(String key, String value, List<Sorcerer> sorcerers) {
         int index = parseIndex(key);
         String field = parseField(key);
-
-        // Расширяем список если нужно (ГАРАНТИРОВАННО НЕ NULL)
         ensureSorcererListSize(sorcerers, index);
 
-        Sorcerer sorcerer = sorcerers.get(index);  // теперь точно не null
+        Sorcerer sorcerer = sorcerers.get(index);
 
         switch (field) {
             case "name":
@@ -104,11 +96,9 @@ public class TXTReader implements Reader {
     private void processTechniqueField(String key, String value, List<Technique> techniques) {
         int index = parseIndex(key);
         String field = parseField(key);
-
-        // Расширяем список если нужно (ГАРАНТИРОВАННО НЕ NULL)
         ensureTechniqueListSize(techniques, index);
 
-        Technique technique = techniques.get(index);  // теперь точно не null
+        Technique technique = techniques.get(index);
 
         switch (field) {
             case "name":
@@ -123,27 +113,57 @@ public class TXTReader implements Reader {
         }
     }
 
-    // 👇 НОВЫЕ МЕТОДЫ: гарантированно создают объекты
+    private void processCurseField(String key, String value, Curse curse) {
+        int dotPos = key.indexOf('.');
+
+        String field = key.substring(dotPos + 1);
+        switch (field) {
+            case "name":
+                curse.setName(value);
+                break;
+            case "threatLevel":
+                curse.setThreatLevel(value);
+                break;
+            default:
+                System.out.println("Доп информация, нужна обработка: " + field);
+        }
+    }
+
+    private String extractBaseKey(String key) {
+        if (key.contains("[")) {
+            //"sorcerer[n].name"
+            return key.substring(0, key.indexOf('['));
+        } else if (key.contains(".")) {
+            //"curse.name"
+            return key.substring(0, key.indexOf('.'));
+        }
+        return key;
+    }
+
     private void ensureSorcererListSize(List<Sorcerer> list, int index) {
         while (list.size() <= index) {
-            list.add(new Sorcerer());  // всегда создаем новый объект!
+            list.add(new Sorcerer());
         }
     }
 
     private void ensureTechniqueListSize(List<Technique> list, int index) {
         while (list.size() <= index) {
-            list.add(new Technique());  // всегда создаем новый объект!
+            list.add(new Technique());
         }
     }
 
     private int parseIndex(String key) {
-        int openBracket = key.indexOf('[');
-        int closeBracket = key.indexOf(']');
-        return Integer.parseInt(key.substring(openBracket + 1, closeBracket));
+        String[] parts = key.split("\\[");  // ["sorcerer", "0].name"]
+        String[] indexParts = parts[1].split("\\]");  //["0", ".name"]
+        String indexStr = indexParts[0];
+
+        return Integer.parseInt(indexStr);
     }
 
     private String parseField(String key) {
-        int closeBracket = key.indexOf(']');
-        return key.substring(closeBracket + 2);
+        String[] parts = key.split("\\[");           // ["sorcerer", "0].name"]
+        String[] indexParts = parts[1].split("\\]"); // ["0", ".name"]
+
+        return indexParts[1].substring(1); // без точкии в начале
     }
 }

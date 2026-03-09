@@ -3,16 +3,15 @@ package MephiPackage;
 public class Sorcerer {
     private String name;
     private String rank;
-    private Technique technique;  // может быть null
+    private Technique technique;
 
-    public Sorcerer() {}  // пустой конструктор обязателен!
+    public Sorcerer() {}
 
     public Sorcerer(String name, String rank) {
         this.name = name;
         this.rank = rank;
     }
 
-    // Геттеры и сеттеры для ВСЕХ полей
     public String getName() {
         return name;
     }

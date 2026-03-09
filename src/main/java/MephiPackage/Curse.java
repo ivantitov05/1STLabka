@@ -1,18 +1,17 @@
 package MephiPackage;
 
 public class Curse {
-    private String name;        // добавил private (было package-private)
-    private String threatLevel;  // добавил private
-    private Technique technique; // может быть null
+    private String name;
+    private String threatLevel;
+    private Technique technique;
 
-    public Curse() {}  // пустой конструктор обязателен!
+    public Curse() {}
 
     public Curse(String name, String threatLevel) {
         this.name = name;
         this.threatLevel = threatLevel;
     }
 
-    // Геттеры и сеттеры для ВСЕХ полей
     public String getName() {
         return name;
     }
