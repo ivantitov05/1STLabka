@@ -12,10 +12,8 @@ public class Mission {
     private List<Sorcerer> sorcerers;
     private List<Technique> techniques;
 
-    // Пустой конструктор обязателен!
     public Mission() {}
 
-    // Геттеры и сеттеры для ВСЕХ полей
 
     public String getMissionId() {
         return missionId;
@@ -61,7 +59,7 @@ public class Mission {
         return curse;
     }
 
-    public void setCurse(Curse curse) {           // ← этого не хватало
+    public void setCurse(Curse curse) {
         this.curse = curse;
     }
 
@@ -79,21 +77,5 @@ public class Mission {
 
     public void setTechniques(List<Technique> techniques) {  // ← этого не хватало
         this.techniques = techniques;
-    }
-
-    // Вспомогательные методы для удобства
-
-    public void addSorcerer(Sorcerer sorcerer) {
-        if (this.sorcerers == null) {
-            this.sorcerers = new java.util.ArrayList<>();
-        }
-        this.sorcerers.add(sorcerer);
-    }
-
-    public void addTechnique(Technique technique) {
-        if (this.techniques == null) {
-            this.techniques = new java.util.ArrayList<>();
-        }
-        this.techniques.add(technique);
     }
 }

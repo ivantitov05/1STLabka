@@ -3,7 +3,6 @@ package MephiPackage;
 public class Curse {
     private String name;
     private String threatLevel;
-    private Technique technique;
 
     public Curse() {}
 
@@ -26,13 +25,5 @@ public class Curse {
 
     public void setThreatLevel(String threatLevel) {
         this.threatLevel = threatLevel;
-    }
-
-    public Technique getTechnique() {
-        return technique;
-    }
-
-    public void setTechnique(Technique technique) {
-        this.technique = technique;
     }
 }

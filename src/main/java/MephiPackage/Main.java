@@ -30,9 +30,7 @@ public class Main {
             }
 
             if (mission != null) {
-                System.out.println("Миссия загружена: " + mission.getMissionId());
-                System.out.println("Локация: " + mission.getLocation());
-                System.out.println("Дата: " + mission.getDate());
+                MissionPrinter.print(mission);
             }
 
         } catch (IOException e) {
