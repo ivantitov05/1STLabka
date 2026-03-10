@@ -3,7 +3,6 @@ package MephiPackage;
 public class Sorcerer {
     private String name;
     private String rank;
-    private Technique technique;
 
     public Sorcerer() {}
 
