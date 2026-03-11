@@ -49,10 +49,6 @@ public class MissionPrinter {
             Sorcerer s = sorcerers.get(i);
             System.out.println("  " + (i+1) + ". " + safeString(s.getName()) +
                     " (ранг: " + safeString(s.getRank()) + ")");
-
-            if (s.getTechnique() != null) {
-                System.out.println("     Техника: " + s.getTechnique().getName());
-            }
         }
     }
 

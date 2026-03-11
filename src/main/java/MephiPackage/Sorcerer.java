@@ -26,12 +26,4 @@ public class Sorcerer {
     public void setRank(String rank) {
         this.rank = rank;
     }
-
-    public Technique getTechnique() {
-        return technique;
-    }
-
-    public void setTechnique(Technique technique) {
-        this.technique = technique;
-    }
 }

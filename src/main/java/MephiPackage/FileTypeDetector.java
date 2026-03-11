@@ -7,14 +7,16 @@ import java.io.File;
 import java.io.IOException;
 
 public class FileTypeDetector {
-    public static String checkType(File file) {
+    private static Exception EmptyFileException;
+
+    public static String checkType(File file) throws Exception {
 
         ObjectMapper jsonMapper = new ObjectMapper();
         XmlMapper xmlMapper = new XmlMapper();
 
-        //if (file.length() == 0) {
-        //    return "txt";
-        //}
+        if (file.length() == 0) {
+            throw new EmptyFileException("Файл пуст: " + file.getPath());
+        }
 
         try {
             jsonMapper.readTree(file);

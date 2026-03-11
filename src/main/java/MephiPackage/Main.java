@@ -4,15 +4,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         File file = FileChooser.selectFile();
         if (file == null) return;
-
-        String type = FileTypeDetector.checkType(file);
-        System.out.println("Тип файла: " + type);
-
         try {
             Mission mission = null;
+            String type = FileTypeDetector.checkType(file);
+            System.out.println("Тип файла: " + type);
 
             switch (type) {
                 case "json":
@@ -32,8 +30,7 @@ public class Main {
             if (mission != null) {
                 MissionPrinter.print(mission);
             }
-
-        } catch (IOException e) {
+        } catch (EmptyFileException | IOException e) {
             System.err.println("Ошибка: " + e.getMessage());
         }
     }
