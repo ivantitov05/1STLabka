@@ -1,4 +1,4 @@
-package MephiPackage;
+package MephiPackage.utils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

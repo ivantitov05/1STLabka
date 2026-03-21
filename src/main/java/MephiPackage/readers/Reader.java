@@ -1,4 +1,6 @@
-package MephiPackage;
+package MephiPackage.readers;
+
+import MephiPackage.objects.Mission;
 
 import java.io.File;
 import java.io.IOException;

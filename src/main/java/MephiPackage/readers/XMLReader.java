@@ -1,12 +1,12 @@
-package MephiPackage;
+package MephiPackage.readers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import MephiPackage.objects.Mission;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.File;
 import java.io.IOException;
 
-public class XMLReader implements Reader{
+public class XMLReader implements Reader {
 
     File file;
     public XMLReader(File file) throws IOException {

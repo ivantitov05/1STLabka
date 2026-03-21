@@ -1,9 +1,18 @@
-package MephiPackage;
+package MephiPackage.core;
+
+import MephiPackage.objects.Mission;
+import MephiPackage.readers.JSONReader;
+import MephiPackage.readers.TXTReader;
+import MephiPackage.readers.XMLReader;
+import MephiPackage.utils.EmptyFileException;
+import MephiPackage.utils.FileChooser;
+import MephiPackage.utils.FileTypeDetector;
+import MephiPackage.utils.MissionPrinter;
 
 import java.io.File;
 import java.io.IOException;
 
-public class Main {
+public class MissionTool {
     public static void main(String[] args) throws Exception {
         File file = FileChooser.selectFile();
         if (file == null) return;
@@ -29,6 +38,7 @@ public class Main {
 
             if (mission != null) {
                 MissionPrinter.print(mission);
+                new MissionToolGUI(mission).setVisible(true);
             }
         } catch (EmptyFileException | IOException e) {
             System.err.println("Ошибка: " + e.getMessage());

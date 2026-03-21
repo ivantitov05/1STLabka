@@ -1,4 +1,4 @@
-package MephiPackage;
+package MephiPackage.objects;
 
 public class Sorcerer {
     private String name;

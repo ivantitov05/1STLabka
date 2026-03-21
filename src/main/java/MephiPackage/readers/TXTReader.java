@@ -1,4 +1,9 @@
-package MephiPackage;
+package MephiPackage.readers;
+
+import MephiPackage.objects.Curse;
+import MephiPackage.objects.Mission;
+import MephiPackage.objects.Sorcerer;
+import MephiPackage.objects.Technique;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +33,7 @@ public class TXTReader implements Reader {
         }
 
         Mission mission = new Mission();
-        Curse curse = new Curse();
+        List<Curse> curses = new ArrayList<>();
         List<Sorcerer> sorcerers = new ArrayList<>();
         List<Technique> techniques = new ArrayList<>();
 
@@ -59,7 +64,7 @@ public class TXTReader implements Reader {
                     mission.setDamageCost(Long.parseLong(value));
                     break;
                 case "curse":
-                    processCurseField(key, value, curse);
+                    processCurseField(key, value, curses);
                     break;
                 case "sorcerer":
                     processSorcererField(key, value, sorcerers);
@@ -113,10 +118,12 @@ public class TXTReader implements Reader {
         }
     }
 
-    private void processCurseField(String key, String value, Curse curse) {
-        int dotPos = key.indexOf('.');
+    private void processCurseField(String key, String value, List<Curse> curses) {
+        int index = parseIndex(key);
+        String field = parseField(key);
+        ensureCursesListSize(curses, index);
 
-        String field = key.substring(dotPos + 1);
+        Curse curse = curses.get(index);
         switch (field) {
             case "name":
                 curse.setName(value);
@@ -143,6 +150,12 @@ public class TXTReader implements Reader {
     private void ensureSorcererListSize(List<Sorcerer> list, int index) {
         while (list.size() <= index) {
             list.add(new Sorcerer());
+        }
+    }
+
+    private void ensureCursesListSize(List<Curse> list, int index) {
+        while (list.size() <= index) {
+            list.add(new Curse());
         }
     }
 

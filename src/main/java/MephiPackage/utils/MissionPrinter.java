@@ -1,4 +1,9 @@
-package MephiPackage;
+package MephiPackage.utils;
+
+import MephiPackage.objects.Curse;
+import MephiPackage.objects.Mission;
+import MephiPackage.objects.Sorcerer;
+import MephiPackage.objects.Technique;
 
 import java.util.List;
 
@@ -11,7 +16,7 @@ public class MissionPrinter {
 
         System.out.println("Данные о прочитанной миссии:\n");
         printBasicInfo(mission);
-        printCurseInfo(mission.getCurse());
+        printCurseInfo(mission.getCurses());
         printSorcerersInfo(mission.getSorcerers());
         printTechniquesInfo(mission.getTechniques());
     }
@@ -26,15 +31,17 @@ public class MissionPrinter {
         System.out.println("  Ущерб: " + mission.getDamageCost());
     }
 
-    private static void printCurseInfo(Curse curse) {
-        if (curse == null) {
-            System.out.println("Проклятья нет");
+    private static void printCurseInfo(List<Curse> curses) {
+        System.out.println("Проклятья :");
+        if (curses.isEmpty()) {
+            System.out.println("Нет волшебников");
             return;
         }
 
-        System.out.println("Проклятье:");
-        System.out.println("  Название: " + safeString(curse.getName()));
-        System.out.println("  Уровень угрозы: " + safeString(curse.getThreatLevel()));
+        for (int i = 0; i < curses.size(); i++) {
+            Curse s = curses.get(i);
+            System.out.println("Проклятье: " + safeString(s.getName()));
+        }
     }
 
     private static void printSorcerersInfo(List<Sorcerer> sorcerers) {

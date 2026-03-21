@@ -1,4 +1,4 @@
-package MephiPackage;
+package MephiPackage.objects;
 
 public class Curse {
     private String name;

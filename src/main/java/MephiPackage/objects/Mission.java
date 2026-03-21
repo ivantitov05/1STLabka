@@ -1,5 +1,6 @@
-package MephiPackage;
+package MephiPackage.objects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Mission {
@@ -8,9 +9,10 @@ public class Mission {
     private String location;
     private String outcome;
     private long damageCost;
-    private Curse curse;
+    private List<Curse> curses;
     private List<Sorcerer> sorcerers;
     private List<Technique> techniques;
+    private String comment;
 
     public Mission() {}
 
@@ -21,6 +23,23 @@ public class Mission {
 
     public void setMissionId(String missionId) {
         this.missionId = missionId;
+    }
+
+    public Curse getCurse() {
+        if (curses != null && !curses.isEmpty()) {
+            return curses.get(0);  // возвращаем первое проклятие
+        }
+        return null;
+    }
+
+    public void setCurse(Curse curse) {
+        if (this.curses == null) {
+            this.curses = new ArrayList<>();
+        }
+        this.curses.clear();
+        if (curse != null) {
+            this.curses.add(curse);
+        }
     }
 
     public String getDate() {
@@ -55,12 +74,12 @@ public class Mission {
         this.damageCost = damageCost;
     }
 
-    public Curse getCurse() {
-        return curse;
+    public List<Curse> getCurses() {
+        return curses;
     }
 
-    public void setCurse(Curse curse) {
-        this.curse = curse;
+    public void setCurses(List<Curse> curses) {  // ← этого не хватало
+        this.curses = curses;
     }
 
     public List<Sorcerer> getSorcerers() {
@@ -73,6 +92,14 @@ public class Mission {
 
     public List<Technique> getTechniques() {
         return techniques;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public void setTechniques(List<Technique> techniques) {  // ← этого не хватало
