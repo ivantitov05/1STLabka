@@ -75,8 +75,13 @@ public class TXTReader implements Reader {
             }
         }
 
+        mission.setCurses(curses);
         mission.setSorcerers(sorcerers);
         mission.setTechniques(techniques);
+
+        if (mission.getMissionId() == null || mission.getMissionId().isEmpty()) {
+            throw new IOException("Файл не содержит обязательного поля missionId");
+        }
 
         return mission;
     }

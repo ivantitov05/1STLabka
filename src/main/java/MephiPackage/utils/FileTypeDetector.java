@@ -1,38 +1,39 @@
 package MephiPackage.utils;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class FileTypeDetector {
-    private static Exception EmptyFileException;
-
-    public static String checkType(File file) throws Exception {
-
-        ObjectMapper jsonMapper = new ObjectMapper();
-        XmlMapper xmlMapper = new XmlMapper();
-
-        if (file.length() == 0) {
-            throw new EmptyFileException("Файл пуст: " + file.getPath());
-        }
-
+    public static String checkType(File file) {
         try {
-            jsonMapper.readTree(file);
-            return "json";
-        } catch (JsonParseException e) {
-            try {
-                xmlMapper.readTree(file);
-                return "xml";
-            } catch (JsonParseException ex) {
-                return "txt";
-            } catch (IOException ex) {
-                System.err.println("Ошибка при чтении XML: " + ex.getMessage());
+            String content = Files.readString(file.toPath()).trim();
+            if (content.isEmpty()) {
                 return "txt";
             }
+
+            char firstChar = content.charAt(0);
+
+            if (firstChar != '{' && firstChar != '[' && firstChar != '<') {
+                return "txt";
+            }
+
+            ObjectMapper jsonMapper = new ObjectMapper();
+            try {
+                jsonMapper.readTree(file);
+                return "json";
+            } catch (Exception e) {
+                try {
+                    XmlMapper xmlMapper = new XmlMapper();
+                    xmlMapper.readTree(file);
+                    return "xml";
+                } catch (Exception ex) {
+                    return "txt";
+                }
+            }
         } catch (IOException e) {
-            System.err.println("Ошибка при чтении файла: " + e.getMessage());
             return "txt";
         }
     }

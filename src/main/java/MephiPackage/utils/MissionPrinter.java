@@ -24,11 +24,11 @@ public class MissionPrinter {
 
     private static void printBasicInfo(Mission mission) {
         System.out.println("Основные данные:");
-        System.out.println("  ID миссии: " + safeString(mission.getMissionId()));
-        System.out.println("  Дата: " + safeString(mission.getDate()));
-        System.out.println("  Локация: " + safeString(mission.getLocation()));
-        System.out.println("  Результат: " + safeString(mission.getOutcome()));
-        System.out.println("  Ущерб: " + mission.getDamageCost());
+        System.out.println("ID миссии: " + safeString(mission.getMissionId()));
+        System.out.println("Дата: " + safeString(mission.getDate()));
+        System.out.println("Локация: " + safeString(mission.getLocation()));
+        System.out.println("Результат: " + safeString(mission.getOutcome()));
+        System.out.println("Ущерб: " + mission.getDamageCost());
     }
 
     private static void printCurseInfo(List<Curse> curses) {
@@ -70,9 +70,9 @@ public class MissionPrinter {
         for (int i = 0; i < techniques.size(); i++) {
             Technique t = techniques.get(i);
             System.out.println("  " + (i+1) + ". " + safeString(t.getName()));
-            System.out.println("     Тип: " + safeString(t.getType()));
-            System.out.println("     Владелец: " + safeString(t.getOwner()));
-            System.out.println("     Урон: " + t.getDamage());
+            System.out.println("Тип: " + safeString(t.getType()));
+            System.out.println("Владелец: " + safeString(t.getOwner()));
+            System.out.println("Урон: " + t.getDamage());
 
         }
     }

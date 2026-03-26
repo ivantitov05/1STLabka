@@ -40,7 +40,7 @@ public class MissionTool {
                 MissionPrinter.print(mission);
                 new MissionToolGUI(mission).setVisible(true);
             }
-        } catch (EmptyFileException | IOException e) {
+        } catch (IOException e) {
             System.err.println("Ошибка: " + e.getMessage());
         }
     }
