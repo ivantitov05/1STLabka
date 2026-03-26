@@ -124,29 +124,43 @@ public class TXTReader implements Reader {
     }
 
     private void processCurseField(String key, String value, List<Curse> curses) {
-        int index = parseIndex(key);
-        String field = parseField(key);
-        ensureCursesListSize(curses, index);
+        if (key.contains("[")) {
+            int index = parseIndex(key);
+            String field = parseField(key);
+            ensureCursesListSize(curses, index);
 
-        Curse curse = curses.get(index);
-        switch (field) {
-            case "name":
-                curse.setName(value);
-                break;
-            case "threatLevel":
-                curse.setThreatLevel(value);
-                break;
-            default:
-                System.out.println("Доп информация, нужна обработка: " + field);
+            Curse curse = curses.get(index);
+            switch (field) {
+                case "name":
+                    curse.setName(value);
+                    break;
+                case "threatLevel":
+                    curse.setThreatLevel(value);
+                    break;
+            }
+        } else {
+            int dotIndex = key.indexOf('.');
+            if (dotIndex != -1) {
+                String field = key.substring(dotIndex + 1);
+                ensureCursesListSize(curses, 0);
+
+                Curse curse = curses.get(0);
+                switch (field) {
+                    case "name":
+                        curse.setName(value);
+                        break;
+                    case "threatLevel":
+                        curse.setThreatLevel(value);
+                        break;
+                }
+            }
         }
     }
 
     private String extractBaseKey(String key) {
         if (key.contains("[")) {
-            //"sorcerer[n].name"
             return key.substring(0, key.indexOf('['));
         } else if (key.contains(".")) {
-            //"curse.name"
             return key.substring(0, key.indexOf('.'));
         }
         return key;

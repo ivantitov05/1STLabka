@@ -16,14 +16,14 @@
     </properties>
 
     <dependencies>
-        <!-- Jackson для JSON -->
+        <!-- Jackson,JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
 
-        <!-- Jackson для XML -->
+        <!-- Jackson,XML -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
