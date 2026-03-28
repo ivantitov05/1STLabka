@@ -16,7 +16,16 @@ public class JSONReader implements Reader {
     @Override
     public Mission extract(File file) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        Mission mission = mapper.readValue(file,Mission.class);
+        Mission mission = mapper.readValue(file, Mission.class);
+        
+        if (mission.getMissionId() == null || mission.getMissionId().isEmpty()) {
+            throw new IOException("Файл не содержит обязательного поля missionId");
+        }
+
+        if (mission.getDate() == null || mission.getDate().isEmpty()) {
+            throw new IOException("Файл не содержит обязательного поля date");
+        }
+
         return mission;
     }
 }

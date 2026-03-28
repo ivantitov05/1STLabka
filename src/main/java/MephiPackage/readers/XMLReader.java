@@ -1,6 +1,7 @@
 package MephiPackage.readers;
 
 import MephiPackage.objects.Mission;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import java.io.File;
@@ -15,8 +16,19 @@ public class XMLReader implements Reader {
 
     @Override
     public Mission extract(File file) throws IOException {
-        XmlMapper mapper = new XmlMapper();
-        Mission mission = mapper.readValue(file,Mission.class);
+        XmlMapper xmlMapper = new XmlMapper();
+
+        JsonNode root = xmlMapper.readTree(file);
+        if (root.isEmpty()) {
+            throw new IOException("XML файл пуст");
+        }
+
+        Mission mission = xmlMapper.readValue(file, Mission.class);
+
+        if (mission.getMissionId() == null || mission.getMissionId().isEmpty()) {
+            throw new IOException("XML файл не содержит missionId");
+        }
+
         return mission;
     }
 }

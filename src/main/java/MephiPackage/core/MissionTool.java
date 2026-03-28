@@ -4,7 +4,6 @@ import MephiPackage.objects.Mission;
 import MephiPackage.readers.JSONReader;
 import MephiPackage.readers.TXTReader;
 import MephiPackage.readers.XMLReader;
-import MephiPackage.utils.EmptyFileException;
 import MephiPackage.utils.FileChooser;
 import MephiPackage.utils.FileTypeDetector;
 import MephiPackage.utils.MissionPrinter;
